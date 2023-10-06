@@ -1,9 +1,6 @@
 package com.App.SunuScol.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
@@ -15,16 +12,29 @@ public class User {
     private String firstName;
     private String password;
     private String email;
+    private String birthDay;
+    private String birthPlace;
+
+    @ManyToOne
+    @JoinColumn(name = "roleId")
+    private Role role;
+    private String adress;
+
+
+
 
     public User() {
     }
 
-    public User(Long userId, String lastName, String firstName, String password, String email) {
+    public User(Long userId, String lastName, String firstName, String password, String email, String birthDay, String birthPlace, String adress) {
         this.userId = userId;
         this.lastName = lastName;
         this.firstName = firstName;
         this.password = password;
         this.email = email;
+        this.birthDay = birthDay;
+        this.birthPlace = birthPlace;
+        this.adress = adress;
     }
 
     public Long getUserId() {return userId;}
@@ -46,6 +56,30 @@ public class User {
     public String getEmail() {return email;}
 
     public void setEmail(String email) {this.email = email;}
+
+    public String getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(String birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public String getBirthPlace() {
+        return birthPlace;
+    }
+
+    public void setBirthPlace(String birthPlace) {
+        this.birthPlace = birthPlace;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
 }
 
 

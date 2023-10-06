@@ -27,8 +27,7 @@ public class UserService {
 
     public void addUser(User user) {userRepository.save(user);}
 
-    //The update does not ok
-    public void updateUser(User user, long id) { userRepository.save(user); }
+    public void updateUser(User user) { userRepository.save(user); }
     public void deleteUser(long id) { userRepository.deleteById(id);  }
 
 

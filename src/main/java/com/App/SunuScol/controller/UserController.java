@@ -1,7 +1,6 @@
 package com.App.SunuScol.controller;
 
 import com.App.SunuScol.model.User;
-import com.App.SunuScol.repository.UserRepository;
 import com.App.SunuScol.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +29,8 @@ public class UserController {
     //Modifier les informations d'un utilisateur
     @RequestMapping(method =  RequestMethod.PUT, value = "/user/{id}")
     public void updateUser(@RequestBody User user, @PathVariable long id){
-        userService.updateUser(user, id);
+        user.setUserId(id);  // Ensure the User object has its id set to the provided id
+        userService.updateUser(user);
     }
 
     //Supprimer un User
