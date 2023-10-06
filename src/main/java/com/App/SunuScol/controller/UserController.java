@@ -15,17 +15,27 @@ public class UserController {
     @Autowired
     public UserController(UserService userService){this.userService = userService; }
 
-//    Obtenir les utilisateurs
+//    Acquérir  les utilisateurs
     @RequestMapping(method = RequestMethod.GET, value = "/users")
     public List<User> getUsers(){return userService.getUsers();}
 
-    //    Obtenir un utilisateurs
+    //    Acquérir  un utilisateurs
     @RequestMapping(method = RequestMethod.GET, value = "/user/{id}")
     public User getUser(@PathVariable long id){return userService.getUser(id); }
 
-    //    Créer un utilisateur
+    //    Ajouter un utilisateur
     @RequestMapping(method =  RequestMethod.POST, value = "/user/{id}")
     public void addUser(@RequestBody User user){userService.addUser(user);}
+
+    //Modifier les informations d'un utilisateur
+    @RequestMapping(method =  RequestMethod.PUT, value = "/user/{id}")
+    public void updateUser(@RequestBody User user, @PathVariable long id){
+        userService.updateUser(user, id);
+    }
+
+    //Supprimer un User
+    @RequestMapping(method = RequestMethod.DELETE, value = "/user/{id}")
+    public void deleteUser(@PathVariable long id){userService.deleteUser(id);}
 
 
 }
