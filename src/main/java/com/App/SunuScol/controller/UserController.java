@@ -15,12 +15,15 @@ public class UserController {
     @Autowired
     public UserController(UserService userService){this.userService = userService; }
 
+//    Obtenir les utilisateurs
     @RequestMapping(method = RequestMethod.GET, value = "/users")
     public List<User> getUsers(){return userService.getUsers();}
 
+    //    Obtenir un utilisateurs
     @RequestMapping(method = RequestMethod.GET, value = "/user/{id}")
     public User getUser(@PathVariable long id){return userService.getUser(id); }
 
+    //    Créer un utilisateur
     @RequestMapping(method =  RequestMethod.POST, value = "/user/{id}")
     public void addUser(@RequestBody User user){userService.addUser(user);}
 
