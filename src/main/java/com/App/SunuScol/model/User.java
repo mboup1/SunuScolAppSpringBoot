@@ -16,6 +16,47 @@ import jakarta.persistence.*;
                 @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_adress")
         }
 )
+
+@NamedStoredProcedureQuery(
+        name = "User.getUser",
+        procedureName = "GetUser",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_userId", type = Integer.class),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_lastName"),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_firstName"),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_password"),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_email"),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_birthDay"),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_birthPlace"),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_adress")
+        },
+        resultClasses = User.class
+)
+
+@NamedStoredProcedureQuery(
+        name = "User.updateUser",
+        procedureName = "UpdateUser",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = Long.class, name = "p_userId"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_lastName"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_firstName"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_password"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_email"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_birthDay"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_birthPlace"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_adress")
+        }
+)
+
+@NamedStoredProcedureQuery(
+        name = "User.deleteUser",
+        procedureName = "DeleteUser",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = Long.class, name = "p_userId")
+        }
+)
+
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

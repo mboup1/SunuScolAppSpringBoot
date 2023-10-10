@@ -23,18 +23,24 @@ public class UserService {
         return users;
     }
 
-    public User getUser(long id) { return userRepository.findById(id).orElse(null); }
-
-//    public void addUser(User user) {userRepository.save(user);}
-
-    //Utilisation procédure stockées
-public void addUser(User user) {
-    userRepository.addUser(user.getLastName(), user.getFirstName(), user.getPassword(),
+    //Utilisation procédures stockées - add user
+//    public User getUser(long id) {return userRepository.getUserWithProcedure(id);}
+    public void addUser(User user) {
+        userRepository.addUserWithProcedure(user.getLastName(), user.getFirstName(), user.getPassword(),
             user.getEmail(), user.getBirthDay(), user.getBirthPlace(), user.getAdress());
-}
+    }
+    public void updateUser(User user) {
+        userRepository.updateUserWithProcedure(user.getUserId(), user.getLastName(), user.getFirstName(), user.getPassword(),
+                user.getEmail(), user.getBirthDay(), user.getBirthPlace(), user.getAdress());
+    }
+    public void deleteUser(long id) {userRepository.deleteUserWithProcedure(id);}
 
-    public void updateUser(User user) { userRepository.save(user); }
-    public void deleteUser(long id) { userRepository.deleteById(id);  }
+        public User getUser(long id) { return userRepository.findById(id).orElse(null); }
+    //    public void addUser(User user) {userRepository.save(user);}
+    //    public void updateUser(User user) { userRepository.save(user); }
+    //    public void deleteUser(long id) { userRepository.deleteById(id);  }
+
+
 
 
 
