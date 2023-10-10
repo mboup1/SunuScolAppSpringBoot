@@ -25,7 +25,13 @@ public class UserService {
 
     public User getUser(long id) { return userRepository.findById(id).orElse(null); }
 
-    public void addUser(User user) {userRepository.save(user);}
+//    public void addUser(User user) {userRepository.save(user);}
+
+    //Utilisation procédure stockées
+public void addUser(User user) {
+    userRepository.addUser(user.getLastName(), user.getFirstName(), user.getPassword(),
+            user.getEmail(), user.getBirthDay(), user.getBirthPlace(), user.getAdress());
+}
 
     public void updateUser(User user) { userRepository.save(user); }
     public void deleteUser(long id) { userRepository.deleteById(id);  }

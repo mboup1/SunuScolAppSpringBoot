@@ -3,6 +3,19 @@ package com.App.SunuScol.model;
 import jakarta.persistence.*;
 
 @Entity
+@NamedStoredProcedureQuery(
+        name = "User.addUser",
+        procedureName = "AddUser",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_lastName"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_firstName"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_password"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_email"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_birthDay"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_birthPlace"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_adress")
+        }
+)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -14,19 +14,19 @@ public class RoleController {
     @Autowired
     public RoleController(RoleService roleService){this.roleService = roleService; }
 
-    //    Acquérir  les utilisateurs
+    //    Acquérir  les roles des utilisateurs
     @RequestMapping(method = RequestMethod.GET, value = "/roles")
     public List<Role> getRoles(){return roleService.getRoles();}
 
-    //    Acquérir  un utilisateurs
+    //    Acquérir  un role
     @RequestMapping(method = RequestMethod.GET, value = "/role/{id}")
     public Role getRole(@PathVariable long id){return roleService.getRole(id); }
 
-    //    Ajouter un utilisateur
+    //    Ajouter un
     @RequestMapping(method =  RequestMethod.POST, value = "/role/{id}")
     public void addRole(@RequestBody Role role){roleService.addRole(role);}
 
-    //Modifier les informations d'un utilisateur
+    //Modifier les informations d'un
     @RequestMapping(method =  RequestMethod.PUT, value = "/role/{id}")
     public void updateRole(@RequestBody Role role, @PathVariable long id){
         role.setRoleId(id);  // Ensure the Role object has its id set to the provided id
