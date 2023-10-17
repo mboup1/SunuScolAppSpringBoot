@@ -1,62 +1,15 @@
 package com.App.SunuScol.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@NamedStoredProcedureQuery(
-        name = "User.addUser",
-        procedureName = "AddUser",
-        parameters = {
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_lastName"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_firstName"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_password"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_email"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_birthDay"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_birthPlace"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_adress")
-        }
-)
-
-@NamedStoredProcedureQuery(
-        name = "User.getUser",
-        procedureName = "GetUser",
-        parameters = {
-                @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_userId", type = Integer.class),
-                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_lastName"),
-                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_firstName"),
-                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_password"),
-                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_email"),
-                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_birthDay"),
-                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_birthPlace"),
-                @StoredProcedureParameter(mode = ParameterMode.OUT, type = String.class, name = "p_adress")
-        },
-        resultClasses = User.class
-)
-
-@NamedStoredProcedureQuery(
-        name = "User.updateUser",
-        procedureName = "UpdateUser",
-        parameters = {
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = Long.class, name = "p_userId"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_lastName"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_firstName"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_password"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_email"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_birthDay"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_birthPlace"),
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "p_adress")
-        }
-)
-
-@NamedStoredProcedureQuery(
-        name = "User.deleteUser",
-        procedureName = "DeleteUser",
-        parameters = {
-                @StoredProcedureParameter(mode = ParameterMode.IN, type = Long.class, name = "p_userId")
-        }
-)
-
-
+//Pour mettre à jour les données modifiées mais toutes
+@DynamicUpdate
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,31 +17,55 @@ public class User {
 
     private String lastName;
     private String firstName;
-    private String password;
-    private String email;
-    private String birthDay;
-    private String birthPlace;
 
-    @ManyToOne
-    @JoinColumn(name = "roleId")
-    private Role role;
-    private String adress;
+    @ManyToMany(
+            fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE,
+            }
+    )
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles = new ArrayList<>();
 
 
 
+//    private String password;
+//    private String email;
+//    private String birthDay;
+//    private String birthPlace;
+//    private String adress;
+//    private Long roleId;
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Role role;
+
+//    @ManyToOne
+//    @JoinColumn(name = "roleId")
+//    private Role role;
+
+
+//    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "role_id", referencedColumnName = "roleId")
+//    private Role role;
 
     public User() {
     }
 
-    public User(Long userId, String lastName, String firstName, String password, String email, String birthDay, String birthPlace, String adress) {
+    public User(Long userId, String lastName, String firstName) {
         this.userId = userId;
         this.lastName = lastName;
         this.firstName = firstName;
-        this.password = password;
-        this.email = email;
-        this.birthDay = birthDay;
-        this.birthPlace = birthPlace;
-        this.adress = adress;
+//        this.password = password;
+//        this.email = email;
+//        this.birthDay = birthDay;
+//        this.birthPlace = birthPlace;
+//        this.adress = adress;
+//        this.roleId = roleId;
     }
 
     public Long getUserId() {return userId;}
@@ -103,37 +80,63 @@ public class User {
 
     public void setFirstName(String firstName) {this.firstName = firstName;}
 
-    public String getPassword() {return password;}
+    public List<Role> getRoles() {return roles;}
 
-    public void setPassword(String password) {this.password = password;}
+    public void setRoles(List<Role> roles) {this.roles = roles;}
 
-    public String getEmail() {return email;}
-
-    public void setEmail(String email) {this.email = email;}
-
-    public String getBirthDay() {
-        return birthDay;
+    //Méthodes utilitaires
+    public void addRole(Role role) {
+        roles.add(role);
+        role.getUsers().add(this);
     }
 
-    public void setBirthDay(String birthDay) {
-        this.birthDay = birthDay;
+    public void removeRole(Role role) {
+        roles.remove(role);
+        role.getUsers().remove(this);
     }
 
-    public String getBirthPlace() {
-        return birthPlace;
-    }
-
-    public void setBirthPlace(String birthPlace) {
-        this.birthPlace = birthPlace;
-    }
-
-    public String getAdress() {
-        return adress;
-    }
-
-    public void setAdress(String adress) {
-        this.adress = adress;
-    }
 }
 
 
+
+
+
+    //    public String getPassword() {return password;}
+//
+//    public void setPassword(String password) {this.password = password;}
+//
+//    public String getEmail() {return email;}
+//
+//    public void setEmail(String email) {this.email = email;}
+//
+//    public String getBirthDay() {
+//        return birthDay;
+//    }
+//
+//    public void setBirthDay(String birthDay) {
+//        this.birthDay = birthDay;
+//    }
+//
+//    public String getBirthPlace() {
+//        return birthPlace;
+//    }
+//
+//    public void setBirthPlace(String birthPlace) {
+//        this.birthPlace = birthPlace;
+//    }
+//
+//    public String getAdress() {
+//        return adress;
+//    }
+//
+//    public void setAdress(String adress) {
+//        this.adress = adress;
+//    }
+//
+//    public Long getRoleId() {
+//        return roleId;
+//    }
+//
+//    public void setRoleId(Long roleId) {
+//        this.roleId = roleId;
+//    }

@@ -29,7 +29,7 @@ public class RoleController {
     //Modifier les informations d'un
     @RequestMapping(method =  RequestMethod.PUT, value = "/role/{id}")
     public void updateRole(@RequestBody Role role, @PathVariable long id){
-        role.setRoleId(id);  // Ensure the Role object has its id set to the provided id
+        role.setRoleId(id);
         roleService.updateRole(role);
     }
 
