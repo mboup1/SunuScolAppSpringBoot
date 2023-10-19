@@ -13,9 +13,13 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    @Column(name = "user_id")
 
+    private Long userId;
+    @Column(name = "user_name")
     private String UserName;
+
+    @Column(name = "email")
     private String email;
 
     @ManyToMany(
@@ -32,6 +36,7 @@ public class User {
     )
     private List<Role> roles = new ArrayList<>();
 
+    //Probléble à résoudre ultérieurement
 //    @OneToMany(
 ////            mappedBy = "user",
 //            cascade = CascadeType.ALL,
@@ -39,8 +44,10 @@ public class User {
 //            //Récupérer l'utilisateur  et les élèves associés
 //            fetch = FetchType.EAGER
 //    )
-////    @JoinColumn(name = "user_id")
-@ManyToMany(
+//    @JoinColumn(name = "user2_id")
+//List<Student> students = new ArrayList<>();
+
+    @ManyToMany(
         fetch = FetchType.EAGER,
         cascade = {
                 CascadeType.PERSIST,
@@ -56,24 +63,6 @@ public class User {
 
 
 
-//    private String password;
-//    private String email;
-//    private String birthDay;
-//    private String birthPlace;
-//    private String adress;
-//    private Long roleId;
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Role role;
-
-//    @ManyToOne
-//    @JoinColumn(name = "roleId")
-//    private Role role;
-
-
-//    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "role_id", referencedColumnName = "roleId")
-//    private Role role;
 
     public User() {
     }
@@ -103,15 +92,15 @@ public class User {
     public void setRoles(List<Role> roles) {this.roles = roles;}
 
     //Méthodes utilitaires
-    public void addRole(Role role) {
-        roles.add(role);
-        role.getUsers().add(this);
-    }
-
-    public void removeRole(Role role) {
-        roles.remove(role);
-        role.getUsers().remove(this);
-    }
+//    public void addRole(Role role) {
+//        roles.add(role);
+//        role.getUsers().add(this);
+//    }
+//
+//    public void removeRole(Role role) {
+//        roles.remove(role);
+//        role.getUsers().remove(this);
+//    }
 
     public List<Student> getStudents() {
         return students;
@@ -121,47 +110,3 @@ public class User {
         this.students = students;
     }
 }
-
-
-
-
-
-    //    public String getPassword() {return password;}
-//
-//    public void setPassword(String password) {this.password = password;}
-//
-//    public String getEmail() {return email;}
-//
-//    public void setEmail(String email) {this.email = email;}
-//
-//    public String getBirthDay() {
-//        return birthDay;
-//    }
-//
-//    public void setBirthDay(String birthDay) {
-//        this.birthDay = birthDay;
-//    }
-//
-//    public String getBirthPlace() {
-//        return birthPlace;
-//    }
-//
-//    public void setBirthPlace(String birthPlace) {
-//        this.birthPlace = birthPlace;
-//    }
-//
-//    public String getAdress() {
-//        return adress;
-//    }
-//
-//    public void setAdress(String adress) {
-//        this.adress = adress;
-//    }
-//
-//    public Long getRoleId() {
-//        return roleId;
-//    }
-//
-//    public void setRoleId(Long roleId) {
-//        this.roleId = roleId;
-//    }

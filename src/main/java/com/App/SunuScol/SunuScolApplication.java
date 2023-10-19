@@ -1,7 +1,5 @@
 package com.App.SunuScol;
 
-import com.App.SunuScol.model.Role;
-import com.App.SunuScol.model.Student;
 import com.App.SunuScol.model.User;
 import com.App.SunuScol.service.RoleService;
 import com.App.SunuScol.service.StudentService;
@@ -13,7 +11,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootApplication
@@ -39,21 +36,21 @@ public class SunuScolApplication implements CommandLineRunner {
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
-		//Un utilisateur peut avoir plusieurs roles
+		//Un utilisateur peut avoir plusieurs utilisateurs
 		try {
-			User userId1 = userService.getUser(2);
+			User userId1 = userService.getUser(1);
 
 			if (userId1 != null) {
 				System.out.println("Utilisateur : "+userId1.getUserName());
 				AtomicInteger counter2 = new AtomicInteger(1); // Initialiser un compteur
 
 				userId1.getStudents().forEach(
-						student -> System.out.println("Role " + counter2.getAndIncrement() + " : "+student.getLastName()));
+						student -> System.out.println("Etudiant " + counter2.getAndIncrement() + " : "+student.getLastName()));
 			} else {
-				System.out.println("L'utilisateur n'a pas été trouvé.");
+				System.out.println("L'étudiant n'a pas été trouvé.");
 			}
 		} catch (Exception e) {
-			System.err.println("Une erreur s'est produite lors de la récupération de l'utilisateur : " + e.getMessage());
+			System.err.println("Une erreur s'est produite lors de la récupération de l'étudiant : " + e.getMessage());
 		}
 
 

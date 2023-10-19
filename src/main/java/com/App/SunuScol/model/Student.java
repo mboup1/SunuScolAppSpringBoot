@@ -9,7 +9,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentId;
     private Long userId;
-//    private Long classId;
+    private Long classId;
     private String lastName;
     private String firstName;
 
@@ -18,16 +18,15 @@ public class Student {
 //    @JoinColumn(name = "user_id")
 //    private User user; // Relation many-to-one vers User
 
-    public Student() {
-    }
+//    public Student() {
+//    }
 
-    public Student(Long studentId, Long userId, String lastName, String firstName) {
-        this.studentId = studentId;
-        this.userId = userId;
-        this.lastName = lastName;
-        this.firstName = firstName;
-//        this.user = user;
-    }
+//    public Student(Long studentId, Long userId, String lastName, String firstName) {
+//        this.studentId = studentId;
+//        this.userId = userId;
+//        this.lastName = lastName;
+//        this.firstName = firstName;
+//    }
 
     public Long getStudentId() {
         return studentId;
@@ -45,15 +44,8 @@ public class Student {
         this.userId = userId;
     }
 
-//    public Long getClassId() {
-//        return classId;
-//    }
-//
-//    public void setClassId(Long classId) {
-//        this.classId = classId;
-//    }
-
-
+    public Long getClassId() {return classId;}
+    public void setClassId(Long classId) {this.classId = classId;}
 
     public String getLastName() {
         return lastName;
@@ -71,12 +63,6 @@ public class Student {
         this.firstName = firstName;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+
 
 }
