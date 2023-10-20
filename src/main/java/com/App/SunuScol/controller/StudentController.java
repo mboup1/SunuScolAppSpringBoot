@@ -58,7 +58,7 @@ public class StudentController  {
     public void addStudent(@RequestBody Student student){studentService.addStudent(student);}
 
 
-    //Modifier les informations d'un utilisateur avec son élève (possible de faire la mise à jour pour un élève)
+    //Modifier les informations d'un utilisateur avec son élève (impossible de mettre à jour plus d'un élève)
     @RequestMapping(method = RequestMethod.PUT, value = "/user_students/{idUser}/{idStudent}")
     public ResponseEntity<String> updateUserStudents(@PathVariable("idUser") Long idUser, @PathVariable("idStudent") Long idStudent, @RequestBody User updatedUser) {
         // Vérifiez d'abord si l'utilisateur avec l'ID spécifié existe

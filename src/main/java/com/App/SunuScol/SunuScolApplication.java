@@ -1,6 +1,8 @@
 package com.App.SunuScol;
 
+import com.App.SunuScol.model.ClassStudent;
 import com.App.SunuScol.model.User;
+import com.App.SunuScol.service.ClassStudentService;
 import com.App.SunuScol.service.RoleService;
 import com.App.SunuScol.service.StudentService;
 import com.App.SunuScol.service.UserService;
@@ -27,6 +29,9 @@ public class SunuScolApplication implements CommandLineRunner {
 	private StudentService studentService;
 
 	@Autowired
+	private ClassStudentService classStudentService;
+
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	public static void main(String[] args) {
@@ -36,22 +41,41 @@ public class SunuScolApplication implements CommandLineRunner {
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
-		//Un utilisateur peut avoir plusieurs utilisateurs
-		try {
-			User userId1 = userService.getUser(1);
 
-			if (userId1 != null) {
-				System.out.println("Utilisateur : "+userId1.getUserName());
+		//Un utilisateur peut avoir plusieurs élèves
+		try {
+			ClassStudent classStudentId1 = classStudentService.getClassStudent(1);
+
+			if (classStudentId1 != null) {
+				System.out.println("Classe : "+classStudentId1.getClassLevel());
 				AtomicInteger counter2 = new AtomicInteger(1); // Initialiser un compteur
 
-				userId1.getStudents().forEach(
+				classStudentId1.getStudents().forEach(
 						student -> System.out.println("Etudiant " + counter2.getAndIncrement() + " : "+student.getLastName()));
 			} else {
-				System.out.println("L'étudiant n'a pas été trouvé.");
+				System.out.println("L'élève n'a pas été trouvé.");
 			}
 		} catch (Exception e) {
-			System.err.println("Une erreur s'est produite lors de la récupération de l'étudiant : " + e.getMessage());
+			System.err.println("Une erreur s'est produite lors de la récupération de l'élève : " + e.getMessage());
 		}
+
+
+//		//Un utilisateur peut avoir plusieurs élèves
+//		try {
+//			User userId1 = userService.getUser(1);
+//
+//			if (userId1 != null) {
+//				System.out.println("Utilisateur : "+userId1.getUserName());
+//				AtomicInteger counter2 = new AtomicInteger(1); // Initialiser un compteur
+//
+//				userId1.getStudents().forEach(
+//						student -> System.out.println("Elève " + counter2.getAndIncrement() + " : "+student.getLastName()));
+//			} else {
+//				System.out.println("L'élève n'a pas été trouvé.");
+//			}
+//		} catch (Exception e) {
+//			System.err.println("Une erreur s'est produite lors de la récupération de l'élève : " + e.getMessage());
+//		}
 
 
 //		// Créer la base de données

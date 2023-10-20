@@ -26,7 +26,9 @@ public class ClassStudentService {
 
     public ClassStudent addClassStudent(ClassStudent classStudent) {return classStudentRepository.save(classStudent);}
 
-    public void updateClassStudent(ClassStudent classStudent) { classStudentRepository.save(classStudent); }
+    public ClassStudent updateClassStudent(ClassStudent classStudent) { classStudentRepository.save(classStudent);
+        return classStudent;
+    }
     public void deleteClassStudent(long id) { classStudentRepository.deleteById(id);  }
 
 }
