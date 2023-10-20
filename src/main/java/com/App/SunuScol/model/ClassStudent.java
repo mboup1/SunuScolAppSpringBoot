@@ -1,11 +1,9 @@
 package com.App.SunuScol.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Table(name = "class_student")
+@Entity
 public class ClassStudent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +18,7 @@ public class ClassStudent {
     public void setClassId(Long classId) {this.classId = classId;}
 
 //    public Long getStudentId() {return studentId;}
-//
+////
 //    public void setStudentId(Long studentId) {this.studentId = studentId;}
 
     public String getClassLevel() {return classLevel;}
