@@ -98,16 +98,3 @@ public class RoleController {
     public void deleteRole(@PathVariable long id){roleService.deleteRole(id);}
 
 }
-
-
-
-//else if (user.getUserName() == null  && user.getEmail() == null) {
-//        for (Role role : user.getRoles()) {
-////                    role.setUserId(savedUser.getUserId());
-//        // Enregistrez le rôle dans la base de données
-//        roleService.addRole(role);
-//
-//        }
-//        return ResponseEntity.ok("1Utilisateur ajouté avec succès avec un rôle.");
-//
-//        }

@@ -85,7 +85,6 @@ public class StudentController  {
             return ResponseEntity.ok("Utilisateur mis à jour avec succès avec des rôles.");
         } else {
             return ResponseEntity.ok("Id de cet utilisateur n'existe pas .");
-//            return ResponseEntity.notFound().build();
         }
     }
 

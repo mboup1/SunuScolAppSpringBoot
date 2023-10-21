@@ -13,25 +13,9 @@ public class Student {
     private String lastName;
     private String firstName;
 
-
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user; // Relation many-to-one vers User
-
-//    public Student() {
-//    }
-
-//    public Student(Long studentId, Long userId, String lastName, String firstName) {
-//        this.studentId = studentId;
-//        this.userId = userId;
-//        this.lastName = lastName;
-//        this.firstName = firstName;
-//    }
-
     public Long getStudentId() {
         return studentId;
     }
-
     public void setStudentId(Long studentId) {
         this.studentId = studentId;
     }
@@ -39,7 +23,6 @@ public class Student {
     public Long getUserId() {
         return userId;
     }
-
     public void setUserId(Long userId) {
         this.userId = userId;
     }
@@ -50,7 +33,6 @@ public class Student {
     public String getLastName() {
         return lastName;
     }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -58,11 +40,7 @@ public class Student {
     public String getFirstName() {
         return firstName;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
-
-
 }

@@ -2,8 +2,6 @@ package com.App.SunuScol.controller;
 
 import com.App.SunuScol.model.ClassStudent;
 import com.App.SunuScol.model.Student;
-import com.App.SunuScol.model.User;
-import com.App.SunuScol.repository.ClassStudentRepository;
 import com.App.SunuScol.service.ClassStudentService;
 import com.App.SunuScol.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
