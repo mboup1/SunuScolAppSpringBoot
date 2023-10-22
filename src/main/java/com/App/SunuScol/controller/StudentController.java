@@ -98,5 +98,6 @@ public class StudentController  {
     //Supprimer un Student
     @RequestMapping(method = RequestMethod.DELETE, value = "/student/{id}")
     public void deleteStudent(@PathVariable long id){studentService.deleteStudent(id);}
+
 }
 

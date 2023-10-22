@@ -1,5 +1,6 @@
 package com.App.SunuScol.controller;
 
+import com.App.SunuScol.model.Student;
 import com.App.SunuScol.model.User;
 import com.App.SunuScol.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,17 @@ public class UserController {
     //    Acquérir  un utilisateurs
     @RequestMapping(method = RequestMethod.GET, value = "/user/{id}")
     public User getUser(@PathVariable long id){return userService.getUser(id); }
+
+    //    //    Ajouter un utilisateur
+    @RequestMapping(method =  RequestMethod.POST, value = "/user/{id}")
+    public void addStudent(@RequestBody User user){userService.addUser(user);}
+
+    //Modifier les informations d'un utilisateur
+    @RequestMapping(method =  RequestMethod.PUT, value = "/user/{id}")
+    public void updateUser(@RequestBody User user, @PathVariable long id){
+        user.setUserId(id);
+        userService.updateUser(user);
+    }
 
     //Supprimer un User
     @RequestMapping(method = RequestMethod.DELETE, value = "/user/{id}")
