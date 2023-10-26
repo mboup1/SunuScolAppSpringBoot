@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT,
     user_name VARCHAR(50),
     email VARCHAR(50),
+    class_id INT,
     PRIMARY KEY (user_id)
 );
 
@@ -35,7 +36,9 @@ CREATE TABLE IF NOT EXISTS user_roles (
 CREATE TABLE IF NOT EXISTS class_student (
     class_id INT AUTO_INCREMENT,
     class_level VARCHAR(255),
+    user_id INT,
     PRIMARY KEY (class_id)
+--    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 -- Création de la table 'student' pour la relation many-to-many
@@ -68,23 +71,31 @@ CREATE TABLE IF NOT EXISTS class_students_student (
     PRIMARY KEY (class_id, student_id)
 );
 
+CREATE TABLE IF NOT EXISTS user_class_students (
+    user_id INT,
+    class_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (class_id) REFERENCES class_student(class_id) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, class_id)
+);
+
 -- Insertion de données dans la table 'users'
-INSERT INTO users (user_id, user_name, email)
-VALUES (1, 'MBOUP', 'Dame@'),
-       (2, 'MUSK', 'Elon@'),
-       (3, 'GATES', 'Bill@'),
-       (4, 'BEZOS', 'Jeff@'),
-       (5, 'ZUCKERBERG', 'Mark@'),
-       (6, 'Jobs', 'Steve@');
+INSERT INTO users (user_id, user_name, email, class_id)
+VALUES (1, 'MBOUP', 'Dame@',1),
+       (2, 'MUSK', 'Elon@',1),
+       (3, 'GATES', 'Bill@',2),
+       (4, 'BEZOS', 'Jeff@',3),
+       (5, 'ZUCKERBERG', 'Mark@',4),
+       (6, 'Jobs', 'Steve@',5);
 
 -- Insertion de données dans la table 'class_student'
-INSERT INTO class_student (class_id, class_level)
-VALUES (1, '3eme'),
-       (2, '4eme'),
-       (3, '6eme'),
-       (4, '1ere'),
-       (5, 'Tle'),
-       (6, '2nde');
+INSERT INTO class_student (class_id, class_level, user_id)
+VALUES (1, '3eme', 1),
+       (2, '4eme', 1),
+       (3, '6eme', 1),
+       (4, '1ere', 3),
+       (5, 'Tle', 5),
+       (6, '2nde', 5);
 
 -- Insertion de données dans la table 'role'
 INSERT INTO role (role_id, role_name, permissions, user_id)
@@ -130,3 +141,14 @@ VALUES (1, 1),
        (3, 4),
        (5, 5),
        (5, 6);
+
+-- Insertion de données dans la table 'user_class_students'
+INSERT INTO user_class_students (user_id, class_id)
+VALUES (1, 1),
+       (1, 2),
+       (1, 3),
+       (3, 4),
+       (5, 5),
+       (5, 6);
+
+

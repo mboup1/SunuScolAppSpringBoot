@@ -22,6 +22,10 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "class_id")
+    private Long classId;
+
+
     @ManyToMany(
             fetch = FetchType.EAGER,
             cascade = {
@@ -53,13 +57,27 @@ public class User {
                 CascadeType.PERSIST,
                 CascadeType.MERGE,
         }
-)
-@JoinTable(
-        name = "user_students",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "student_id")
-)
+    )
+    @JoinTable(
+            name = "user_students",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
     List<Student> students = new ArrayList<>();
+
+    @ManyToMany(
+            fetch = FetchType.EAGER,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE,
+            }
+    )
+    @JoinTable(
+            name = "user_classStudents",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "class_id")
+    )
+    List<ClassStudent> classstudents = new ArrayList<>();
 
     public Long getUserId() {return userId;}
     public void setUserId(Long userId) {this.userId = userId;}
@@ -77,4 +95,15 @@ public class User {
     public void setStudents(List<Student> students) {
         this.students = students;
     }
+
+    public List<ClassStudent> getClassstudents() {
+        return classstudents;
+    }
+
+    public void setClassstudents(List<ClassStudent> classstudents) {
+        this.classstudents = classstudents;
+    }
+
+    public Long getClassId() {return classId;}
+    public void setClassId(Long classId) {this.classId = classId;}
 }

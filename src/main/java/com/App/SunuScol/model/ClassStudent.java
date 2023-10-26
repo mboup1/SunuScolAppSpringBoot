@@ -12,6 +12,7 @@ public class ClassStudent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long classId;
     private String classLevel; //3eme, 1ere
+    private Long userId;
 //    private  Long Edt_id; //timeTable = emploi du temps
 
     @ManyToMany(
@@ -30,14 +31,14 @@ public class ClassStudent {
 
 
     public Long getClassId() {return classId;}
-
     public void setClassId(Long classId) {this.classId = classId;}
 
     public String getClassLevel() {return classLevel;}
-
     public void setClassLevel(String classLevel) {this.classLevel = classLevel;}
 
-    public List<Student> getStudents() {return students;}
+    public Long getUserId() {return userId;}
+    public void setUserId(Long userId) {this.userId = userId;}
 
+    public List<Student> getStudents() {return students;}
     public void setStudents(List<Student> students) {this.students = students;}
 }

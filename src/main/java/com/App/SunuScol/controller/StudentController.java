@@ -1,7 +1,9 @@
 package com.App.SunuScol.controller;
 
+import com.App.SunuScol.model.ClassStudent;
 import com.App.SunuScol.model.Student;
 import com.App.SunuScol.model.User;
+import com.App.SunuScol.service.ClassStudentService;
 import com.App.SunuScol.service.StudentService;
 import com.App.SunuScol.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +17,14 @@ import java.util.List;
 public class StudentController  {
     private  final StudentService studentService;
     private  final UserService userService;
+    private  final ClassStudentService classStudentService;
 
 
     @Autowired
-    public StudentController(StudentService studentService, UserService userService){
+    public StudentController(StudentService studentService, UserService userService, ClassStudentService classStudentService){
         this.studentService = studentService;
         this.userService = userService;
-
+        this.classStudentService = classStudentService;
     }
 
     //    Acquérir  les utilisateurs
@@ -32,28 +35,57 @@ public class StudentController  {
     @RequestMapping(method = RequestMethod.GET, value = "/student/{id}")
     public Student getStudent(@PathVariable long id){return studentService.getStudent(id); }
 
-    //    Ajouter un utilisateur et des étudiants
+    //    Ajouter un utilisateur, des étudiants et une classe
     @RequestMapping(method = RequestMethod.POST, value = "/user_students/{id}")
     public ResponseEntity<String> addUserStudents(@RequestBody User user) {
         User savedUser = userService.addUser(user);
+
+        System.out.println(savedUser);
         if (savedUser != null) {
             // Vérifiez si l'utilisateur a des rôles dans son objet User
             if (user.getStudents() != null && !user.getStudents().isEmpty()) {
                 for (Student student : user.getStudents()) {
                     student.setUserId(savedUser.getUserId());
                     // Enregistrez le rôle dans la base de données
-                    studentService.addStudent(student);
+//                    studentService.addStudent(student);
                 }
-                return ResponseEntity.ok("Etudiant ajouté avec succès avec un rôle.");
+//                return ResponseEntity.ok("Etudiant ajouté avec succès avec un rôle.");
             } else {
                 return ResponseEntity.badRequest().body("L'étudiant n'a pas de rôle spécifié.");
             }
+            // Check if the user has classstudents associated
+            if (user.getClassstudents() != null && !user.getClassstudents().isEmpty()) {
+                for (ClassStudent classStudent : user.getClassstudents()) {
+                    classStudent.setUserId(savedUser.getUserId());
+                    // Save the classStudent and ideally, this method should return the saved object
+                    ClassStudent savedClassStudent = classStudentService.addClassStudent(classStudent);
+
+                    // Assuming the savedClassStudent object has the generated classId.
+                    Long generatedClassId = savedClassStudent.getClassId();
+
+                    // Update the classId of each student associated with this classStudent
+                    for (Student student : user.getStudents()) {
+                         student.setClassId(generatedClassId);
+                        // Now save this student with the updated classId
+                        Student savedStudent = studentService.addStudent(student);
+
+                        Long generatedStudentId = savedStudent.getStudentId();
+                        Student fetchedStudent = studentService.getStudent(generatedStudentId);
+                        savedClassStudent.getStudents().add(fetchedStudent);
+                        classStudentService.updateClassStudent(savedClassStudent);
+                    }
+                }
+            } else {
+                return ResponseEntity.badRequest().body("No classstudents specified for the user.");
+            }
+            return ResponseEntity.ok("User, students, and classstudents added successfully.");
         } else {
             return ResponseEntity.badRequest().body("Échec de l'ajout de l'utilisateur.");
         }
     }
 
-//    //    Ajouter un étudiant
+
+    //    //    Ajouter un étudiant
     @RequestMapping(method =  RequestMethod.POST, value = "/student/{id}")
     public void addStudent(@RequestBody Student student){studentService.addStudent(student);}
 
