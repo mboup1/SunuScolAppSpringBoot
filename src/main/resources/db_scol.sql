@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS db_scol;
 
 -- Utilisation de la base de données
-USE db_scol;
+USE db_scol; 
 
 -- Création de la table 'users'
 CREATE TABLE IF NOT EXISTS users (
